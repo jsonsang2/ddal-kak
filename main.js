@@ -1,47 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const generatorBtn = document.getElementById('generator-btn');
-    const numbersContainer = document.getElementById('numbers-container');
     const themeToggle = document.getElementById('theme-toggle');
 
     // Load saved theme
     const savedTheme = localStorage.getItem('theme') || 'light';
     if (savedTheme === 'dark') {
         document.documentElement.setAttribute('data-theme', 'dark');
-        themeToggle.textContent = '☀️';
+        if (themeToggle) themeToggle.textContent = '\u2600\uFE0F';
     }
 
-    themeToggle.addEventListener('click', () => {
-        const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-        if (isDark) {
-            document.documentElement.removeAttribute('data-theme');
-            themeToggle.textContent = '🌙';
-            localStorage.setItem('theme', 'light');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            themeToggle.textContent = '☀️';
-            localStorage.setItem('theme', 'dark');
-        }
-    });
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            if (isDark) {
+                document.documentElement.removeAttribute('data-theme');
+                themeToggle.textContent = '\uD83C\uDF19';
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '\u2600\uFE0F';
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    }
 
-    generatorBtn.addEventListener('click', () => {
-        generateLottoNumbers();
-    });
+    // Lottery generator (only on index page)
+    const generatorBtn = document.getElementById('generator-btn');
+    const numbersContainer = document.getElementById('numbers-container');
+    const historySection = document.getElementById('history-section');
+    const historyList = document.getElementById('history-list');
+    const history = [];
 
-    function generateLottoNumbers() {
-        numbersContainer.innerHTML = '';
-        const numbers = new Set();
-        while (numbers.size < 6) {
-            const randomNumber = Math.floor(Math.random() * 45) + 1;
-            numbers.add(randomNumber);
-        }
+    if (generatorBtn && numbersContainer) {
+        generatorBtn.addEventListener('click', () => {
+            numbersContainer.innerHTML = '';
+            const numbers = new Set();
+            while (numbers.size < 6) {
+                numbers.add(Math.floor(Math.random() * 45) + 1);
+            }
 
-        const sortedNumbers = Array.from(numbers).sort((a, b) => a - b);
+            const sorted = Array.from(numbers).sort((a, b) => a - b);
 
-        sortedNumbers.forEach(number => {
-            const numberElement = document.createElement('div');
-            numberElement.classList.add('number');
-            numberElement.textContent = number;
-            numbersContainer.appendChild(numberElement);
+            sorted.forEach(num => {
+                const el = document.createElement('div');
+                el.classList.add('number');
+                el.textContent = num;
+                numbersContainer.appendChild(el);
+            });
+
+            // Save to history
+            history.unshift(sorted.join(', '));
+            if (history.length > 5) history.pop();
+            renderHistory();
+        });
+    }
+
+    function renderHistory() {
+        if (!historyList || !historySection) return;
+        historySection.classList.remove('hidden');
+        historyList.innerHTML = '';
+        history.forEach(entry => {
+            const li = document.createElement('li');
+            li.textContent = entry;
+            historyList.appendChild(li);
         });
     }
 });

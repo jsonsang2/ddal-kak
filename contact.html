@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>제휴 문의</title>
+    <title>제휴 문의 - 딸깍</title>
+    <meta name="description" content="딸깍 사이트 제휴, 광고, 협업 문의 페이지입니다.">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="contact.css">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5500659564258597"
          crossorigin="anonymous"></script>
 </head>
 <body>
-    <button id="theme-toggle" aria-label="Toggle dark mode">🌙</button>
-    <div class="container contact-container">
+    <button id="theme-toggle" aria-label="다크 모드 전환">🌙</button>
+    <nav class="main-nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">딸깍</a>
+            <ul class="nav-links">
+                <li><a href="index.html">번호 생성</a></li>
+                <li><a href="guide.html">로또 가이드</a></li>
+                <li><a href="stats.html">당첨 통계</a></li>
+                <li><a href="about.html">소개</a></li>
+                <li><a href="contact.html" class="active">제휴 문의</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="contact-container">
         <h1>제휴 문의</h1>
         <p class="subtitle">제휴 및 협업에 관심이 있으시면 아래 양식을 작성해 주세요.</p>
         <form id="contact-form" action="https://formspree.io/f/mojkwvlr" method="POST">
@@ -47,8 +60,20 @@
             <p>문의가 성공적으로 접수되었습니다. 빠른 시일 내에 답변드리겠습니다.</p>
             <a href="index.html" class="back-link">메인으로 돌아가기</a>
         </div>
-        <a href="index.html" class="back-link">← 메인으로 돌아가기</a>
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-links">
+                <a href="privacy.html">개인정보처리방침</a>
+                <a href="terms.html">이용약관</a>
+                <a href="about.html">사이트 소개</a>
+                <a href="contact.html">제휴 문의</a>
+            </div>
+            <p class="footer-copy">&copy; 2025 딸깍. 본 사이트는 정보 제공 목적으로 운영되며, 당첨을 보장하지 않습니다.</p>
+        </div>
+    </footer>
+
     <script src="main.js"></script>
     <script>
         const form = document.getElementById('contact-form');
@@ -68,7 +93,6 @@
                 });
                 if (response.ok) {
                     form.classList.add('hidden');
-                    document.querySelector('.back-link').classList.add('hidden');
                     successMessage.classList.remove('hidden');
                 } else {
                     alert('전송에 실패했습니다. 다시 시도해 주세요.');
